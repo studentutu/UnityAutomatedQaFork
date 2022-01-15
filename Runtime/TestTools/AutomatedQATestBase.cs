@@ -17,7 +17,7 @@ using UnityEngine.TestTools;
 
 namespace GeneratedAutomationTests
 {
-    public abstract class AutomatedQATestsBase
+    public abstract class AutomatedQATestsBase : AutomatedTestSuiteBase
     {
         protected RunContext Test
         {

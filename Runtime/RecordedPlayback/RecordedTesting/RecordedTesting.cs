@@ -66,19 +66,23 @@ namespace Unity.RecordedTesting
             var results = new List<TestRecordingData>();
             
             Assembly[] assems = AppDomain.CurrentDomain.GetAssemblies();
+            var targetOfTests = typeof(AutomatedTestSuiteBase);
             foreach (Assembly a in assems)
             {
                 foreach (Type t in a.GetTypes())
                 {
-                    foreach (MethodInfo m in t.GetMethods())
+                    if (targetOfTests.IsAssignableFrom(t))
                     {
-                        foreach (var attribute in m.GetCustomAttributes())
+                        foreach (MethodInfo m in t.GetMethods())
                         {
-                            var fullName = t.FullName + "." + m.Name;
-                            var rtAttr = attribute as RecordedTestAttribute;
-                            if (rtAttr != null)
+                            foreach (var attribute in m.GetCustomAttributes())
                             {
-                                results.Add(new TestRecordingData(fullName, rtAttr.GetRecording()));
+                                var fullName = t.FullName + "." + m.Name;
+                                var rtAttr = attribute as RecordedTestAttribute;
+                                if (rtAttr != null)
+                                {
+                                    results.Add(new TestRecordingData(fullName, rtAttr.GetRecording()));
+                                }
                             }
                         }
                     }

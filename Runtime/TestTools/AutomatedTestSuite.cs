@@ -11,7 +11,7 @@ using UnityEditor;
 
 namespace GeneratedAutomationTests
 {
-    public abstract class AutomatedTestSuite
+    public abstract class AutomatedTestSuite : AutomatedTestSuiteBase
     {
         protected string testName;
 

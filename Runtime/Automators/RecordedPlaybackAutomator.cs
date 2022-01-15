@@ -64,8 +64,24 @@ namespace Unity.RecordedPlayback
             if (config.loadEntryScene && !string.IsNullOrEmpty(recordingData.entryScene))
             {
                 logger.Log($"Load Scene {recordingData.entryScene}");
-                var loadSceneAsync = SceneManager.LoadSceneAsync(recordingData.entryScene);
+                bool isFoundScene = false;
                 float timer = AutomatedQASettings.DynamicLoadSceneTimeout;
+                AsyncOperation loadSceneAsync = null;
+                try
+                {
+                    loadSceneAsync = SceneManager.LoadSceneAsync(recordingData.entryScene);
+                }
+                catch (Exception e)
+                {
+                    isFoundScene = false;
+                    logger.LogException(e); 
+                }
+
+                if (!isFoundScene)
+                {
+                    yield break;
+                }
+                
                 while (!loadSceneAsync.isDone && timer > 0)
                 {
                     yield return null;
