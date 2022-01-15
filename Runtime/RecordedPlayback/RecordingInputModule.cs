@@ -890,8 +890,19 @@ namespace UnityEngine.EventSystems
                 }
                 if (throwError)
                 {
-                    logger.LogError($"Click position recorded relative to spot within the target GameObject \"{nameOfObject}\" is positioned outside of the camera frustum (is not visible to the camera). " +
-                    $"Since this is a GameObject in the UI layer, this may mean that the object has not scaled or positioned properly in the current aspect ratio ({Screen.width}w X {Screen.height}h) and current resolution ({Screen.currentResolution.width} X {Screen.currentResolution.height}) compared to the recorded aspect ratio ({RecordedPlaybackPersistentData.RecordedAspectRatio.x}h X {RecordedPlaybackPersistentData.RecordedAspectRatio.y}w) and recorded resolution ({RecordedPlaybackPersistentData.RecordedResolution.x} X {RecordedPlaybackPersistentData.RecordedResolution.y}).");
+                    string msg =
+                        $"Click position recorded relative to spot within the target GameObject \"{nameOfObject}\" is positioned outside of the camera frustum (is not visible to the camera). " +
+                        $"Since this is a GameObject in the UI layer, this may mean that the object has not scaled or positioned properly in the current aspect ratio ({Screen.width}w X {Screen.height}h) " +
+                        $"and current resolution ({Screen.currentResolution.width} X {Screen.currentResolution.height}) compared to " +
+                        $" the recorded aspect ratio ({RecordedPlaybackPersistentData.RecordedAspectRatio.x}h X {RecordedPlaybackPersistentData.RecordedAspectRatio.y}w) and recorded resolution ({RecordedPlaybackPersistentData.RecordedResolution.x} X {RecordedPlaybackPersistentData.RecordedResolution.y}).";
+                    if (AutomatedQASettings.ThrowGameObjectInvisibleToCamera)
+                    {
+                        logger.LogError(msg);
+                    }
+                    else
+                    {
+                        logger.LogWarning(msg);
+                    }
                 }
                 return false;
             }

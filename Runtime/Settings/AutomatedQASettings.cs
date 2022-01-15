@@ -28,6 +28,7 @@ namespace Unity.AutomatedQA
             internal static readonly string HeapSizeMbMaximumWarningThreshold = "HeapSizeMbMaximumWarningThreshold";
             internal static readonly string PerformanceWarningsEnabled = "PerformanceWarningsEnabled";
             internal static readonly string EnableCloudTesting = "EnableCloudTesting";
+            internal static readonly string ThrowGameObjectInvisibleToCamera = "ThrowGameObjectInvisibleToCamera";
 
         }
 
@@ -57,6 +58,7 @@ namespace Unity.AutomatedQA
             { Keys.HeapSizeMbMaximumWarningThreshold, "The heap size in MB that is the maximum expected usage before showing a warning."},
             { Keys.PerformanceWarningsEnabled, "Activates/deactivates warnings related to performance and max/min thresholds being exceeded."},
             { Keys.EnableCloudTesting, "Enable Cloud Testing features."},
+            { Keys.ThrowGameObjectInvisibleToCamera, "Throw errors if gameobject is not visible in camera view."},
 
         };
 
@@ -117,6 +119,7 @@ namespace Unity.AutomatedQA
             FpsMinimumWarningThreshold = InitFloat(setsToReAddToConfigSettingsFile, Keys.FpsMinimumWarningThreshold, FpsMinimumWarningThreshold);
             HeapSizeMbMaximumWarningThreshold = InitFloat(setsToReAddToConfigSettingsFile, Keys.HeapSizeMbMaximumWarningThreshold, HeapSizeMbMaximumWarningThreshold);
             PerformanceWarningsEnabled = InitBool(setsToReAddToConfigSettingsFile, Keys.PerformanceWarningsEnabled, PerformanceWarningsEnabled);
+            ThrowGameObjectInvisibleToCamera = InitBool(setsToReAddToConfigSettingsFile, Keys.ThrowGameObjectInvisibleToCamera,ThrowGameObjectInvisibleToCamera);
             // EnableCloudTesting = InitBool(setsToReAddToConfigSettingsFile, Keys.EnableCloudTesting, EnableCloudTesting);
 
             
@@ -452,6 +455,22 @@ namespace Unity.AutomatedQA
             }
         }
         private static float _heapSizeMbMaximumWarningThreshold;
+        
+        /// <summary>
+        /// Allows screenshots to be recorded during test run. These are used to show screenshots in reports.
+        /// </summary>
+        public static bool ThrowGameObjectInvisibleToCamera
+        {
+            get
+            {
+                return _throwGameObjectInvisibleToCamera;
+            }
+            set
+            {
+                _throwGameObjectInvisibleToCamera = value;
+            }
+        }
+        private static bool _throwGameObjectInvisibleToCamera = true;
 
         /// <summary>
         /// Set the maximum level of log messages
@@ -661,6 +680,7 @@ namespace Unity.AutomatedQA
                 configCategories.Configs.Add(new AutomationSet(Keys.PerformanceWarningsEnabled, PerformanceWarningsEnabled.ToString()));
                 configCategories.Configs.Add(new AutomationSet(Keys.HeapSizeMbMaximumWarningThreshold, HeapSizeMbMaximumWarningThreshold.ToString()));
                 configCategories.Configs.Add(new AutomationSet(Keys.FpsMinimumWarningThreshold, FpsMinimumWarningThreshold.ToString()));
+                configCategories.Configs.Add(new AutomationSet(Keys.ThrowGameObjectInvisibleToCamera, ThrowGameObjectInvisibleToCamera.ToString()));
                 // configCategories.Configs.Add(new AutomationSet(Keys.EnableCloudTesting, EnableCloudTesting.ToString()));
 
 #if UNITY_EDITOR
